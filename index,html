@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>涉路施工控制区布设培训系统 - 设备信息</title>
+    <style>
+        :root {
+            --bg: #f0f4f8;
+            --card-bg: #ffffff;
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --text-label: #718096;
+            --accent: #2b6cb0;
+            --accent-light: #ebf4ff;
+            --online: #38a169;
+            --online-bg: #f0fff4;
+            --border: #e2e8f0;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+            --shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.10);
+            --radius: 16px;
+            --transition: 0.25s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 24px;
+            background-image:
+                radial-gradient(ellipse at 30% 20%, rgba(43, 108, 176, 0.04) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 70%, rgba(56, 161, 105, 0.04) 0%, transparent 60%);
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 36px 32px 28px;
+            max-width: 500px;
+            width: 100%;
+            transition: box-shadow var(--transition), transform var(--transition);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+
+        /* 顶部装饰条 */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #2b6cb0 0%, #4299e1 40%, #38a169 100%);
+            border-radius: var(--radius) var(--radius) 0 0;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .icon-wrapper {
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--accent-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+        }
+
+        .icon-wrapper svg {
+            width: 26px;
+            height: 26px;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+            line-height: 1.4;
+        }
+
+        .card-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-label);
+            font-weight: 400;
+            margin-top: 2px;
+        }
+
+        /* 信息列表 */
+        .info-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: flex-start;
+            padding: 14px 6px;
+            border-bottom: 1px solid #f7fafc;
+            transition: background var(--transition);
+            border-radius: 8px;
+            gap: 14px;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-row:hover {
+            background: #fafcfd;
+        }
+
+        .info-label {
+            flex-shrink: 0;
+            width: 90px;
+            font-size: 0.85rem;
+            color: var(--text-label);
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            padding-top: 1px;
+        }
+
+        .info-value {
+            flex: 1;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            word-break: break-all;
+            line-height: 1.5;
+        }
+
+        /* 状态标签 */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--online-bg);
+            color: var(--online);
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 5px 14px;
+            border-radius: 20px;
+            border: 1px solid #c6f6d5;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--online);
+            animation: pulse 2s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes pulse {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(56, 161, 105, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 0 8px rgba(56, 161, 105, 0);
+            }
+        }
+
+        /* 养护时间高亮 */
+        .maintenance-date {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #fffbeb;
+            color: #b7791f;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 6px;
+            border: 1px solid #fef3c7;
+            font-size: 0.9rem;
+            letter-spacing: 0.01em;
+        }
+
+        .maintenance-date svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        /* 底部提示 */
+        .card-footer {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px dashed var(--border);
+            text-align: center;
+            font-size: 0.75rem;
+            color: #a0aec0;
+            letter-spacing: 0.03em;
+        }
+
+        /* 响应式 */
+        @media (max-width: 480px) {
+            .card {
+                padding: 24px 18px 20px;
+                border-radius: 14px;
+            }
+            .card::before {
+                height: 3px;
+            }
+            .info-label {
+                width: 70px;
+                font-size: 0.78rem;
+            }
+            .info-value {
+                font-size: 0.88rem;
+            }
+            .card-title {
+                font-size: 1rem;
+            }
+            .icon-wrapper {
+                width: 40px;
+                height: 40px;
+                border-radius: 10px;
+            }
+            .icon-wrapper svg {
+                width: 22px;
+                height: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card" role="region" aria-label="设备信息卡片">
+        <!-- 头部 -->
+        <div class="card-header">
+            <div class="icon-wrapper" aria-hidden="true">
+                <!-- 服务器/设备图标 -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                    <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                    <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                    <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                </svg>
+            </div>
+            <div>
+                <h1 class="card-title">涉路施工控制区布设培训系统</h1>
+                <p class="card-subtitle">设备信息概览</p>
+            </div>
+        </div>
+
+        <!-- 信息列表 -->
+        <div class="info-list">
+            <!-- 设备名称 -->
+            <div class="info-row">
+                <span class="info-label">设备名称</span>
+                <span class="info-value">涉路施工控制区布设培训系统</span>
+            </div>
+
+            <!-- 设备参数 -->
+            <div class="info-row">
+                <span class="info-label">设备参数</span>
+                <span class="info-value">CPU 十代 i5&nbsp;&nbsp;|&nbsp;&nbsp;显卡 2060</span>
+            </div>
+
+            <!-- 设备状态 -->
+            <div class="info-row">
+                <span class="info-label">设备状态</span>
+                <span class="info-value">
+                    <span class="status-badge" aria-label="设备状态：在线">
+                        <span class="status-dot" aria-hidden="true"></span>
+                        在线
+                    </span>
+                </span>
+            </div>
+
+            <!-- 责任人 -->
+            <div class="info-row">
+                <span class="info-label">责&nbsp;&nbsp;任&nbsp;&nbsp;人</span>
+                <span class="info-value">小明</span>
+            </div>
+
+            <!-- 设备养护时间 -->
+            <div class="info-row">
+                <span class="info-label">养护时间</span>
+                <span class="info-value">
+                    <span class="maintenance-date">
+                        <!-- 日历图标 -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        2026.07.15
+                    </span>
+                </span>
+            </div>
+        </div>
+
+        <!-- 底部 -->
+        <div class="card-footer">
+            最后更新于 <time datetime="2026-07-15">2026年7月15日</time>
+        </div>
+    </div>
+
+</body>
+</html>
